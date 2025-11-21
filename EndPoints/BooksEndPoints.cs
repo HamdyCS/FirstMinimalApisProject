@@ -8,8 +8,11 @@ namespace FirstMinimalApiProject.EndPoints
     {
         public static WebApplication MapBooksEndPoints(this WebApplication app)
         {
+            //بعمل group عشان اضيف حاجة ثابتة ليهم كلهم
+            // مثل route
+            var group = app.MapGroup("api/books");
             //get all books
-            app.MapGet("/books", async (IBookService bookService) =>
+            group.MapGet("", async (IBookService bookService) =>
             {
                 var Books = await bookService.GetAllAsync();
 
@@ -21,7 +24,7 @@ namespace FirstMinimalApiProject.EndPoints
             }).WithName("GetAllBooks");
 
             //get book by id
-            app.MapGet("/books/{Id}", async ([FromRoute] Guid Id, IBookService bookService) =>
+            group.MapGet("{Id}", async ([FromRoute] Guid Id, IBookService bookService) =>
             {
                 var book = await bookService.GetByIdAsync(Id);
 
@@ -33,7 +36,7 @@ namespace FirstMinimalApiProject.EndPoints
             }).WithName("GetById");
 
             //create new book
-            app.MapPost("/books", async ([FromBody] Book book, IBookService bookService) =>
+            group.MapPost("", async ([FromBody] Book book, IBookService bookService) =>
             {
                 book.Id = Guid.NewGuid();
                 var createdBook = await bookService.AddNew(book);
