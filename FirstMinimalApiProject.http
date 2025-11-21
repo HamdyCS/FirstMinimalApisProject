@@ -1,0 +1,5 @@
+﻿@FirstMinimalApiProject_HostAddress = https://localhost:7092
+
+GET {{FirstMinimalApiProject_HostAddress}}/books
+
+###
